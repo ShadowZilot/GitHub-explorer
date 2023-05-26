@@ -2,17 +2,14 @@ package com.example.githubexplorer.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.githubexplorer.GLOBAL_CLIENT
 import com.example.githubexplorer.R
 import com.example.githubexplorer.common.ResultData
 import com.example.githubexplorer.search.cloud.SearchResults
 import com.example.githubexplorer.search.data.DataListItem
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
 class SearchViewModel(
     private val mRepositories: SearchResults.Repositories,
@@ -31,9 +28,10 @@ class SearchViewModel(
                             val users = async { mUsers.search(query) }
                             val repositories = async { mRepositories.search(query) }
                             val summaryList = users.await() + repositories.await()
-                            object : ResultData<List<DataListItem>>(mData = summaryList.sortedBy {
-                                it.sortProperty()
-                            }) {}
+                            object :
+                                ResultData<List<DataListItem>>(mData = summaryList.sortedBy {
+                                    it.sortProperty()
+                                }) {}
                         }
                     } catch (e: Exception) {
                         object :

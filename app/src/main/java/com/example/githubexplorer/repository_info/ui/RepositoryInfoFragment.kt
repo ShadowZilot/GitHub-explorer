@@ -3,7 +3,10 @@ package com.example.githubexplorer.repository_info.ui
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +17,7 @@ import com.example.githubexplorer.common.ResultLogic
 import com.example.githubexplorer.databinding.RepositoryInfoFragmentBinding
 import com.example.githubexplorer.repository_info.RepositoryInfoViewModel
 import com.example.githubexplorer.search.data.DataListItem
+import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
 
 class RepositoryInfoFragment : BaseFragment<RepositoryInfoFragmentBinding>(
@@ -58,20 +62,18 @@ class RepositoryInfoFragment : BaseFragment<RepositoryInfoFragmentBinding>(
         mBinding.contentList.addItemDecoration(
             DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
         )
-    }
-
-    override fun onResume() {
-        super.onResume()
         loadContent()
     }
 
     private fun loadContent() {
         viewLifecycleOwner.lifecycleScope.launch {
-            mViewModel.loadContent(
-                mPath ?: "", mName ?: "",
-                mOwner ?: ""
-            ).collect {
-                it.map(this@RepositoryInfoFragment)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mViewModel.loadContent(
+                    mPath ?: "", mName ?: "",
+                    mOwner ?: ""
+                ).collect {
+                    it.map(this@RepositoryInfoFragment)
+                }
             }
         }
     }

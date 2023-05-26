@@ -12,7 +12,9 @@
         tools:layout="@layout/search_fragment">
         <action
             android:id="@+id/action_searchFragment_to_repositoryInfoFragment"
-            app:destination="@id/repositoryInfoFragment" />
+            app:destination="@id/repositoryInfoFragment"
+            app:popUpToInclusive="true"
+            app:restoreState="false"/>
     </fragment>
 
     <fragment
@@ -22,6 +24,8 @@
         tools:layout="@layout/repository_info_fragment">
         <action
             android:id="@+id/action_repositoryInfoFragment_self"
-            app:destination="@id/repositoryInfoFragment" />
+            app:destination="@id/repositoryInfoFragment"
+            app:popUpToInclusive="true"
+            app:restoreState="false"/>
     </fragment>
 </navigation>

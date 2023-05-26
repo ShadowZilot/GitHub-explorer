@@ -7,7 +7,10 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubexplorer.R
@@ -19,6 +22,7 @@ import com.example.githubexplorer.search.SearchViewModel
 import com.example.githubexplorer.search.data.DataListItem
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
 
 
@@ -55,7 +59,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                if(::mTimer.isInitialized)
+                if (::mTimer.isInitialized)
                     mTimer.cancel()
                 mTimer = lifecycleScope.launch {
                     delay(1000)
@@ -63,19 +67,24 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
                 }
             }
         })
+        implementSearch()
     }
 
     private fun implementSearch() {
         if (mBinding.searchField.text.toString().length >= 3) {
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                mViewModel.searchByQuery(mBinding.searchField.text.toString()).collect {
-                    it.map(this@SearchFragment)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    mViewModel.searchByQuery(mBinding.searchField.text.toString())
+                        .collect {
+                            it.map(this@SearchFragment)
+                        }
                 }
             }
         } else {
             mBinding.searchList.visibility = View.GONE
             mLoadingError.showMessage(R.string.empty_search)
         }
+
     }
 
     override fun doIfLoading() {
