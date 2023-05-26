@@ -1,4 +1,4 @@
 package com.example.githubexplorer.common
 
-val auth_token = "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"
+val auth_token = "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"
 val base_url = "https://api.github.com"
