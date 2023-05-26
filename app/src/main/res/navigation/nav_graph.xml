@@ -27,5 +27,13 @@
             app:destination="@id/repositoryInfoFragment"
             app:popUpToInclusive="true"
             app:restoreState="false"/>
+        <action
+            android:id="@+id/action_repositoryInfoFragment_to_fileInfoFragment"
+            app:destination="@id/fileInfoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/fileInfoFragment"
+        android:name="com.example.githubexplorer.file_info.FileInfoFragment"
+        android:label="FileInfoFragment"
+        tools:layout="@layout/file_info_fragment"/>
 </navigation>

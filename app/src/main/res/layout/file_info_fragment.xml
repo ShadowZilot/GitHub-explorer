@@ -32,16 +32,15 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="ProductCalculator/src/app/layout/res/repository_info_fragment/" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/contentList"
+        <WebView
+            android:id="@+id/fileView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/pathLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/directory_item"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

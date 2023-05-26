@@ -14,7 +14,7 @@ data class FileData(
     constructor(item: JSONObject) : this(
         item.getString("name"),
         item.getString("path"),
-        item.getString("html_url")
+        item.getString("download_url")
     )
 
     fun <T> map(mapper: Mapper<T>) = mapper.map(
