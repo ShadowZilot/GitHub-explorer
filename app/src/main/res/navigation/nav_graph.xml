@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchFragment">
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.githubexplorer.search.ui.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/search_fragment">
+        <action
+            android:id="@+id/action_searchFragment_to_repositoryInfoFragment"
+            app:destination="@id/repositoryInfoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/repositoryInfoFragment"
+        android:name="com.example.githubexplorer.repository_info.ui.RepositoryInfoFragment"
+        android:label="RepositoryInfoFragment"
+        tools:layout="@layout/repository_info_fragment">
+        <action
+            android:id="@+id/action_repositoryInfoFragment_self"
+            app:destination="@id/repositoryInfoFragment" />
+    </fragment>
+</navigation>
